@@ -1,0 +1,509 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>chazhaopaixu | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第九章 查找 查找操作的基本操作：“比较”。  静态查找表查找算法的评价指标 顺序查找（线性查找） 简单顺序表的查找：从表的一端开始，逐个进行记录的关键字ki和给定值key的比较，若ki&#x3D;&#x3D;key，则查找成功；若找不到则查找失败。  顺序查找的性能分析：   优缺点  优点：算法简单且适应面广 缺点：平均查找长度较大，特别是当n很大时，查找效率较低    折半查找（二分查找）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="chazhaopaixu">
+<meta property="og:url" content="http://example.com/2023/08/18/chazhaopaixu/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="第九章 查找 查找操作的基本操作：“比较”。  静态查找表查找算法的评价指标 顺序查找（线性查找） 简单顺序表的查找：从表的一端开始，逐个进行记录的关键字ki和给定值key的比较，若ki&#x3D;&#x3D;key，则查找成功；若找不到则查找失败。  顺序查找的性能分析：   优缺点  优点：算法简单且适应面广 缺点：平均查找长度较大，特别是当n很大时，查找效率较低    折半查找（二分查找）">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/t1.png">
+<meta property="article:published_time" content="2023-08-18T05:35:33.000Z">
+<meta property="article:modified_time" content="2023-08-20T06:33:33.273Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/t1.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/08/18/chazhaopaixu/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'chazhaopaixu',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-20 14:33:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/t1.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hexo"><span class="site-name">Hexo</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">chazhaopaixu</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-08-18T05:35:33.000Z" title="Created 2023-08-18 13:35:33">2023-08-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-08-20T06:33:33.273Z" title="Updated 2023-08-20 14:33:33">2023-08-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="chazhaopaixu"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="第九章-查找"><a href="#第九章-查找" class="headerlink" title="第九章 查找"></a>第九章 查找</h3><blockquote>
+<p>查找操作的基本操作：“比较”。</p>
+</blockquote>
+<h4 id="静态查找表"><a href="#静态查找表" class="headerlink" title="静态查找表"></a>静态查找表</h4><h5 id="查找算法的评价指标"><a href="#查找算法的评价指标" class="headerlink" title="查找算法的评价指标"></a>查找算法的评价指标</h5><p><img src="/chazhaopaixu.assets/image-20230819095213065.png" alt="image-20230819095213065"></p>
+<h5 id="顺序查找（线性查找）"><a href="#顺序查找（线性查找）" class="headerlink" title="顺序查找（线性查找）"></a>顺序查找（线性查找）</h5><ol>
+<li><p><strong>简单顺序表的查找：</strong>从表的一端开始，逐个进行记录的关键字ki和给定值key的比较，若ki&#x3D;&#x3D;key，则查找成功；若找不到则查找失败。</p>
+</li>
+<li><p><strong>顺序查找的性能分析：</strong></p>
+<p><img src="/chazhaopaixu.assets/image-20230819095338203.png" alt="image-20230819095338203"></p>
+</li>
+<li><p><strong>优缺点</strong></p>
+<blockquote>
+<p><strong>优点：</strong>算法简单且适应面广</p>
+<p><strong>缺点：</strong>平均查找长度较大，特别是当n很大时，查找效率较低</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="折半查找（二分查找）"><a href="#折半查找（二分查找）" class="headerlink" title="折半查找（二分查找）"></a>折半查找（二分查找）</h5><ol>
+<li><p><strong>适用场合：</strong>有序顺序表的查找</p>
+</li>
+<li><p><strong>算法思想：</strong></p>
+<blockquote>
+<p>​		先确定待查记录的所在范围，然后逐步缩小范围直到找到或找不到记录为止</p>
+<p>​		将表分解为3个查找区间：前后两个区间的规模大致相等，中间区间长度为1。将待查关键字key和中间的R[mid]比较：</p>
+<p>​		设指针low和high表示待查元素所在范围的下界和上界，指针mid指示区域中间位置</p>
+<p>if(key &#x3D;&#x3D; R[mid])  ：查找成功，返回mid<br> else if (key&lt;R[mid]) ：前半区继续查找:[low,mid-1]<br>else :在后半区继续查找: [mid+1, high]</p>
+</blockquote>
+</li>
+<li><p><strong>性能分析——判定树：</strong></p>
+<blockquote>
+<p>T(n) &#x3D; O(logn)	<img src="/chazhaopaixu.assets/image-20230819100304152.png" alt="image-20230819100304152"></p>
+</blockquote>
+</li>
+<li><p><strong>算法特点</strong></p>
+<blockquote>
+<p>算法简单，算法性能高</p>
+<p>只适用于关键字有序的顺序表</p>
+<p>只适用于顺序存储，不适用于链式存储</p>
+<p><img src="/chazhaopaixu.assets/image-20230819100503992.png" alt="image-20230819100503992"></p>
+</blockquote>
+</li>
+</ol>
+<h5 id="分块查找-索引顺序表的查找"><a href="#分块查找-索引顺序表的查找" class="headerlink" title="分块查找&#x2F;索引顺序表的查找"></a>分块查找&#x2F;索引顺序表的查找</h5><blockquote>
+<pre><code>     分块查找又称索引顺序查找，要求将待查的元素均匀的分成块（子表），每个子表中的数值都比后一块中数值大或者小（但子表内部未必有序）。
+</code></pre>
+<p><img src="/chazhaopaixu.assets/image-20230819100613223.png" alt="image-20230819100613223"></p>
+</blockquote>
+<ol>
+<li><p><strong>分块查找过程：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230819100712232.png" alt="image-20230819100712232"></p>
+</blockquote>
+</li>
+</ol>
+<h5 id="三种查找方法的比较"><a href="#三种查找方法的比较" class="headerlink" title="三种查找方法的比较"></a>三种查找方法的比较</h5><p><img src="/chazhaopaixu.assets/image-20230819100755759.png" alt="image-20230819100755759"></p>
+<h4 id="动态查找表"><a href="#动态查找表" class="headerlink" title="动态查找表"></a>动态查找表</h4><blockquote>
+<p>​		表结构在查找过程中动态生成,动态生成查找表后，表上的查找操作具有类似二分查找的效率，同时插入和删除操作易于实现</p>
+</blockquote>
+<h5 id="二叉排序树-二叉查找树"><a href="#二叉排序树-二叉查找树" class="headerlink" title="二叉排序树&#x2F;二叉查找树"></a>二叉排序树&#x2F;二叉查找树</h5><ol>
+<li><p><strong>什么是二叉排序树</strong></p>
+<blockquote>
+<p>​		二叉排序树，或者是一颗空树，或者是具有以下性质的二叉树</p>
+<p>（1）若它的左子树不空，则左子树上所有结点的值均小于它的根节点的值</p>
+<p>（2）若它的右子树不空，则右子树上所有结点的值均大于它的根节点的值</p>
+<p>（3）它的左右子树也分别为二叉排序树</p>
+</blockquote>
+</li>
+<li><p><strong>中序遍历二叉排序树：</strong> 中序遍历二叉排序树可得到一个关键字的有序序列（递增）</p>
+</li>
+<li><p><strong>二叉排序树的操作——查找：</strong></p>
+<p><img src="/chazhaopaixu.assets/image-20230819112706442.png" alt="image-20230819112706442"></p>
+</li>
+<li><p><strong>二叉排序树的操作——删除：</strong></p>
+<blockquote>
+<p>（1）删除叶节点：</p>
+<p>（2）被删结点只有左子树或只有右子树</p>
+<p>（3）被删结点左右子树都在：找中序遍历p的直接前驱s，用s-&gt;data代替p-&gt;data，删除s。</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="平衡二叉树（AVL）"><a href="#平衡二叉树（AVL）" class="headerlink" title="平衡二叉树（AVL）"></a>平衡二叉树（AVL）</h5><blockquote>
+<p>​	建立形态均匀的二叉排序树：让二叉排序树左右子树差不多高</p>
+</blockquote>
+<ol>
+<li><p><strong>什么是平衡二叉树：</strong></p>
+<blockquote>
+<p><strong>结点的平衡因子：</strong>定义为该结点的左子树的深度减去它右子树的深度</p>
+<p><strong>平衡二叉树：</strong>所有结点的平衡因子绝对值≤1的二叉排序树，即二叉排序树中每个结点的平衡因子只可能为：-1、0、1。</p>
+</blockquote>
+</li>
+<li><p><strong>平衡二叉树的构造</strong></p>
+<blockquote>
+<p>（1）按照二叉排序树的规则进行结点的插入，新插入的结点平衡因子为0；</p>
+<p>（2）每插入一个结点后，从插入位置开始往上，重新计算其祖先的平衡因子；</p>
+<p>（3）当某个结点“失衡”后，根据旋转法则进行调整。</p>
+<p>LL平衡旋转：</p>
+<p><img src="/chazhaopaixu.assets/image-20230819122220063.png" alt="image-20230819122220063"></p>
+<p>RR平衡旋转：<img src="/chazhaopaixu.assets/image-20230819122247128.png" alt="image-20230819122247128"></p>
+<p>LR平衡旋转：</p>
+<p><img src="/chazhaopaixu.assets/image-20230819122627149.png" alt="image-20230819122627149"></p>
+<p>RL平衡旋转：<img src="/chazhaopaixu.assets/image-20230819122649814.png" alt="image-20230819122649814"></p>
+</blockquote>
+</li>
+<li><p><strong>剪枝现象</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230819122759695.png" alt="image-20230819122759695"></p>
+</blockquote>
+</li>
+</ol>
+<h5 id="B-树（m叉平衡排序树）"><a href="#B-树（m叉平衡排序树）" class="headerlink" title="B-树（m叉平衡排序树）"></a>B-树（m叉平衡排序树）</h5><blockquote>
+<p>​		B-树是一种平衡的多路查找树，它在文件系统中很有用。</p>
+<p><strong>一棵m阶的B-树：</strong>或为空树，或为满足下列条件的m叉树</p>
+<ul>
+<li>树中每个结点最多有m棵子树、m-1个关键字</li>
+<li>若根节点不是叶子结点，则至少有两棵子树</li>
+<li>每个结点至少有┌m&#x2F;2┐棵子树、 ┌m&#x2F;2┐ -1个关键字</li>
+<li>结点内的关键字有序排列;</li>
+<li><img src="/chazhaopaixu.assets/image-20230819123101654.png" alt="image-20230819123101654"></li>
+<li>所有叶子结点都出现在同一层次上</li>
+</ul>
+</blockquote>
+<h5 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h5><blockquote>
+<p>​		B+树是应文件系统所需而出的一种B-树的变型树。一颗m阶的B+树和m阶的B-树的差异在于</p>
+<ul>
+<li>有n棵子树的结点中含有n个关键字</li>
+<li>所有叶子结点包含了安全部关键字信息，以及指向这些关键字记录的指针，且叶子结点本身依关键字的大小自小而大顺序链接</li>
+<li>所有的非终端结点可以看成索引部分，结点中仅含有其子树中的最大关键字</li>
+</ul>
+</blockquote>
+<h5 id="键树"><a href="#键树" class="headerlink" title="键树"></a>键树</h5><blockquote>
+<p>​		键树又称数字查找树，树中的每个结点中不是包含一个或几个关键字，而是只含有组成关键字的符号。例如，若关键字是数值，则结点中只包含一个数位；若关键字是单词，则结点中只包含 一个字母字符。</p>
+</blockquote>
+<h4 id="哈希（查找）表"><a href="#哈希（查找）表" class="headerlink" title="哈希（查找）表"></a>哈希（查找）表</h4><blockquote>
+<ul>
+<li>理想的查找情况：不进行比较，根据关键字值直接计算其存储位置。</li>
+<li><img src="/chazhaopaixu.assets/image-20230819123231678.png" alt="image-20230819123231678"></li>
+<li>根据<strong>哈希函数和解决冲突的方法</strong>，将一组关键字映射到一个连续的有限地址区间上，得到的表称为<strong>哈希（查找）表</strong>，每个关键字对应的存储位置称<strong>哈希地址或散列地址</strong></li>
+</ul>
+</blockquote>
+<h5 id="冲突和同义词"><a href="#冲突和同义词" class="headerlink" title="冲突和同义词"></a>冲突和同义词</h5><blockquote>
+<p>​		具有相同函数值的关键字对该哈希函数来说称作同义词，这种现象称之为冲突</p>
+</blockquote>
+<h5 id="构造哈希表"><a href="#构造哈希表" class="headerlink" title="构造哈希表"></a>构造哈希表</h5><ol>
+<li><p><strong>选取好的哈希函数</strong></p>
+<blockquote>
+<p>​		根据元素集合的特性构造均匀（哈希地址取值是等概率的）,即若对于关键字集合中的仁义关键字，经哈希函数映像到地址集合中任何一个地址的概率是相等的</p>
+<p>（1）直接定址法：取关键字或关键字的某个线性函数值为哈希地址</p>
+<p>（2）数字分析法：取关键字中某些取值分布较均匀的数位作为哈希地址</p>
+<p>（3）折叠法：将关键字分割成位数相同的若干部分（最后一部分的位数可以较少），并取各部分的叠加和（舍去进位）作为哈希函数。</p>
+<p>（4）平方取中法：取关键字的平方，然后根据哈希表地址区 间长度m的大小，选取平方数的中间若干位作为哈希地 址。</p>
+<p>（5）<strong>除留余数法：</strong></p>
+<p><img src="/chazhaopaixu.assets/image-20230819205013369.png" alt="image-20230819205013369"></p>
+<p>（6）随机数法：</p>
+</blockquote>
+</li>
+<li><p><strong>制定好的解决冲突方案</strong></p>
+<blockquote>
+<p>（1）开放定址法</p>
+<p><img src="/chazhaopaixu.assets/image-20230819205251173.png" alt="image-20230819205251173"></p>
+<p><img src="/chazhaopaixu.assets/image-20230819205314534.png" alt="image-20230819205314534"></p>
+<p><img src="/chazhaopaixu.assets/image-20230819205332303.png" alt="image-20230819205332303"></p>
+<p><img src="/chazhaopaixu.assets/image-20230819205635883.png" alt="image-20230819205635883"></p>
+<p><img src="/chazhaopaixu.assets/image-20230819205623741.png" alt="image-20230819205623741"></p>
+<p>（2）链地址法</p>
+<p><img src="/chazhaopaixu.assets/image-20230819205652043.png" alt="image-20230819205652043"></p>
+<p><img src="/chazhaopaixu.assets/image-20230819205703716.png" alt="image-20230819205703716"></p>
+</blockquote>
+</li>
+</ol>
+<h3 id="第十章-排序"><a href="#第十章-排序" class="headerlink" title="第十章 排序"></a>第十章 排序</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><blockquote>
+<ul>
+<li><p>排序是将一组“无序”的记录序列调整为“有序”的记录序列。</p>
+</li>
+<li><p>排序操作的基本操作：“比较”、“移位”。</p>
+</li>
+<li><p><strong>排序算法的稳定性：</strong>排序后两个记录的前后顺序不改变，称排序算法是稳定的算法，否则是不稳定的算法。</p>
+</li>
+<li><p><strong>排序分类：</strong>排序后两个记录的前后顺序不改变，称排序算法是稳定的算法，否则是不稳定的算法。</p>
+<p><img src="/chazhaopaixu.assets/image-20230820083005297.png" alt="image-20230820083005297"></p>
+</li>
+</ul>
+</blockquote>
+<h4 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h4><blockquote>
+<p>​		每步将无序序列中的一个记录插入到已排好序的子序列中，从而得到一个新的、记录数增1的有序表。</p>
+</blockquote>
+<h5 id="直接插入排序（基于简单顺序查找）"><a href="#直接插入排序（基于简单顺序查找）" class="headerlink" title="直接插入排序（基于简单顺序查找）"></a>直接插入排序（基于简单顺序查找）</h5><ol>
+<li><p><strong>原理：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820083325783.png" alt="image-20230820083325783"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820083331333.png" alt="image-20230820083331333"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820083431014.png" alt="image-20230820083431014"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820083438677.png" alt="image-20230820083438677"></p>
+</blockquote>
+</li>
+</ol>
+<h5 id="折半插入排序（基于折半查找）"><a href="#折半插入排序（基于折半查找）" class="headerlink" title="折半插入排序（基于折半查找）"></a>折半插入排序（基于折半查找）</h5><ol>
+<li><p><strong>原理：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820083953861.png" alt="image-20230820083953861"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820084027020.png" alt="image-20230820084027020"></p>
+</blockquote>
+</li>
+</ol>
+<h5 id="希尔排序（基于逐趟缩小增量）"><a href="#希尔排序（基于逐趟缩小增量）" class="headerlink" title="希尔排序（基于逐趟缩小增量）"></a>希尔排序（基于逐趟缩小增量）</h5><ol>
+<li><p><strong>原理 ：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820084330148.png" alt="image-20230820084330148"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820084349340.png" alt="image-20230820084349340"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820084431252.png" alt="image-20230820084431252"></p>
+</blockquote>
+</li>
+</ol>
+<h4 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h4><blockquote>
+<p><strong>基本思想：</strong>两两比较，如果发生逆序则交换，直到所有记录都排好序为止。</p>
+<p><img src="/chazhaopaixu.assets/image-20230820084510443.png" alt="image-20230820084510443"></p>
+</blockquote>
+<h5 id="气泡排序"><a href="#气泡排序" class="headerlink" title="气泡排序"></a>气泡排序</h5><ol>
+<li><p><strong>原理：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820084617891.png" alt="image-20230820084617891"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820084630891.png" alt="image-20230820084630891"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820084650035.png" alt="image-20230820084650035"></p>
+</blockquote>
+</li>
+</ol>
+<h5 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h5><ol>
+<li><p><strong>原理：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820084725762.png" alt="image-20230820084725762"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820090534960.png" alt="image-20230820090534960"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820090803015.png" alt="image-20230820090803015"></p>
+</blockquote>
+<blockquote>
+<p>​	就平均时间而言，快速排序被认为是最好的一种内部排序方法</p>
+<p><img src="/chazhaopaixu.assets/image-20230820091116438.png" alt="image-20230820091116438"></p>
+</blockquote>
+</li>
+</ol>
+<h4 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h4><blockquote>
+<p>​	每次在无序子序列中选出关键字最小或最大的记录, 加入到有序子序列中。</p>
+</blockquote>
+<h5 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h5><ol>
+<li><p><strong>原理：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820091429381.png" alt="image-20230820091429381"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820091429381.png" alt="image-20230820091429381"></p>
+</blockquote>
+</li>
+</ol>
+<h5 id="树型选择排序"><a href="#树型选择排序" class="headerlink" title="树型选择排序"></a>树型选择排序</h5><ol>
+<li><p><strong>原理：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820092536771.png" alt="image-20230820092536771"></p>
+<p>​	这个过程可用一棵n个叶子结点的完全二叉树表示</p>
+<p><img src="/chazhaopaixu.assets/image-20230820092938348.png" alt="image-20230820092938348"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820092947275.png" alt="image-20230820092947275"></p>
+<p>​		这种排序方法有辅助存储空间较多、和”最大值“进行多余的比较的缺点。提出了另一种形式的选择排序，堆排序</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h5><ol>
+<li><p><strong>原理：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820134138519.png" alt="image-20230820134138519"></p>
+<p>​	此序列对应的完全二叉树中，所有非终端结点的值均不大于或小于其左、右孩子结点的值</p>
+<p><img src="/chazhaopaixu.assets/image-20230820135135090.png" alt="image-20230820135135090"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820135202194.png" alt="image-20230820135202194"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820135234755.png" alt="image-20230820135234755"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820135252219.png" alt="image-20230820135252219"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820135340675.png" alt="image-20230820135340675"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820140203624.png" alt="image-20230820140203624"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820140220904.png" alt="image-20230820140220904"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820140327304.png" alt="image-20230820140327304"></p>
+</blockquote>
+</li>
+</ol>
+<h4 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h4><blockquote>
+<p>归并：将两个或两个以上的有序表组合成一个新有序表</p>
+</blockquote>
+<h5 id="2-路归并排序"><a href="#2-路归并排序" class="headerlink" title="2-路归并排序"></a>2-路归并排序</h5><ol>
+<li><p><strong>思想：</strong></p>
+<blockquote>
+<p>​		核心操作是将一维数组中前后相邻的两个有序序列归并为一个有序序列。</p>
+<p><img src="/chazhaopaixu.assets/image-20230820140908504.png" alt="image-20230820140908504"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820140950751.png" alt="image-20230820140950751"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<p><img src="/chazhaopaixu.assets/image-20230820141004262.png" alt="image-20230820141004262"></p>
+</li>
+</ol>
+<h4 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h4><blockquote>
+<p>​		基数排序是一种借助多关键字排序的思想对单逻辑关键字进行排序的思想</p>
+<p><img src="/chazhaopaixu.assets/image-20230820141132447.png" alt="image-20230820141132447"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820141215317.png" alt="image-20230820141215317"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820141225637.png" alt="image-20230820141225637"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820141251894.png" alt="image-20230820141251894"></p>
+</blockquote>
+<h5 id="链式基数排序（低位优先）"><a href="#链式基数排序（低位优先）" class="headerlink" title="链式基数排序（低位优先）"></a>链式基数排序（低位优先）</h5><ol>
+<li><p><strong>思想：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820142955548.png" alt="image-20230820142955548"></p>
+</blockquote>
+</li>
+<li><p><strong>算法分析：</strong></p>
+<blockquote>
+<p><img src="/chazhaopaixu.assets/image-20230820142942722.png" alt="image-20230820142942722"></p>
+</blockquote>
+</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><img src="/chazhaopaixu.assets/image-20230820143108615.png" alt="image-20230820143108615"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820143117143.png" alt="image-20230820143117143"></p>
+<p><img src="/chazhaopaixu.assets/image-20230820143241387.png" alt="image-20230820143241387"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/08/18/chazhaopaixu/">http://example.com/2023/08/18/chazhaopaixu/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/t1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/08/17/tu/" title="tu"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">tu</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/t1.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E6%9F%A5%E6%89%BE"><span class="toc-number">1.</span> <span class="toc-text">第九章 查找</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%9F%A5%E6%89%BE%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">静态查找表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%9A%84%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="toc-number">1.1.1.</span> <span class="toc-text">查找算法的评价指标</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE%EF%BC%88%E7%BA%BF%E6%80%A7%E6%9F%A5%E6%89%BE%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">顺序查找（线性查找）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%98%E5%8D%8A%E6%9F%A5%E6%89%BE%EF%BC%88%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">折半查找（二分查找）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE-%E7%B4%A2%E5%BC%95%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84%E6%9F%A5%E6%89%BE"><span class="toc-number">1.1.4.</span> <span class="toc-text">分块查找&#x2F;索引顺序表的查找</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E6%9F%A5%E6%89%BE%E6%96%B9%E6%B3%95%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">1.1.5.</span> <span class="toc-text">三种查找方法的比较</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%9F%A5%E6%89%BE%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">动态查找表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91-%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91"><span class="toc-number">1.2.1.</span> <span class="toc-text">二叉排序树&#x2F;二叉查找树</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88AVL%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">平衡二叉树（AVL）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#B-%E6%A0%91%EF%BC%88m%E5%8F%89%E5%B9%B3%E8%A1%A1%E6%8E%92%E5%BA%8F%E6%A0%91%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">B-树（m叉平衡排序树）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#B-%E6%A0%91"><span class="toc-number">1.2.4.</span> <span class="toc-text">B+树</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%94%AE%E6%A0%91"><span class="toc-number">1.2.5.</span> <span class="toc-text">键树</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%EF%BC%88%E6%9F%A5%E6%89%BE%EF%BC%89%E8%A1%A8"><span class="toc-number">1.3.</span> <span class="toc-text">哈希（查找）表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%86%B2%E7%AA%81%E5%92%8C%E5%90%8C%E4%B9%89%E8%AF%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">冲突和同义词</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">构造哈希表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E7%AB%A0-%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">第十章 排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">2.2.</span> <span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%EF%BC%88%E5%9F%BA%E4%BA%8E%E7%AE%80%E5%8D%95%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE%EF%BC%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">直接插入排序（基于简单顺序查找）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%98%E5%8D%8A%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%EF%BC%88%E5%9F%BA%E4%BA%8E%E6%8A%98%E5%8D%8A%E6%9F%A5%E6%89%BE%EF%BC%89"><span class="toc-number">2.2.2.</span> <span class="toc-text">折半插入排序（基于折半查找）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F%EF%BC%88%E5%9F%BA%E4%BA%8E%E9%80%90%E8%B6%9F%E7%BC%A9%E5%B0%8F%E5%A2%9E%E9%87%8F%EF%BC%89"><span class="toc-number">2.2.3.</span> <span class="toc-text">希尔排序（基于逐趟缩小增量）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%8E%92%E5%BA%8F"><span class="toc-number">2.3.</span> <span class="toc-text">交换排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B0%94%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">2.3.1.</span> <span class="toc-text">气泡排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">2.3.2.</span> <span class="toc-text">快速排序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">2.4.</span> <span class="toc-text">选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">2.4.1.</span> <span class="toc-text">简单选择排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%91%E5%9E%8B%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">2.4.2.</span> <span class="toc-text">树型选择排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">2.4.3.</span> <span class="toc-text">堆排序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">2.5.</span> <span class="toc-text">归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%B7%AF%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">2.5.1.</span> <span class="toc-text">2-路归并排序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="toc-number">2.6.</span> <span class="toc-text">基数排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%93%BE%E5%BC%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%EF%BC%88%E4%BD%8E%E4%BD%8D%E4%BC%98%E5%85%88%EF%BC%89"><span class="toc-number">2.6.1.</span> <span class="toc-text">链式基数排序（低位优先）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.7.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/18/chazhaopaixu/" title="chazhaopaixu">chazhaopaixu</a><time datetime="2023-08-18T05:35:33.000Z" title="Created 2023-08-18 13:35:33">2023-08-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/17/tu/" title="tu">tu</a><time datetime="2023-08-17T14:27:23.000Z" title="Created 2023-08-17 22:27:23">2023-08-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/07/20/jjyy/" title="计算机网络英语词汇">计算机网络英语词汇</a><time datetime="2023-07-20T02:58:43.000Z" title="Created 2023-07-20 10:58:43">2023-07-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/07/18/cryptography/" title="密码学">密码学</a><time datetime="2023-07-18T09:23:11.000Z" title="Created 2023-07-18 17:23:11">2023-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/07/18/zhan/" title="数据结构——绪论和线性结构">数据结构——绪论和线性结构</a><time datetime="2023-07-18T09:23:11.000Z" title="Created 2023-07-18 17:23:11">2023-07-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
